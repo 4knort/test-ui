@@ -27,7 +27,7 @@ let openModals = [];
 addEventListener(document, "keyup", (e) => {
   if (e.keyCode === 27) {
     const currentModal = last(openModals);
-    currentModal && currentModal.props.onRequestHide && currentModal.props.onRequestHide();
+    currentModal && currentModal.props.onRequestHide;
   }
 });
 

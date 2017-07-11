@@ -22,7 +22,6 @@ class EscapableModal extends React.Component {
         <Modal
           isOpen={this.state.modalIsOpen}
           contentLabel=""
-          onRequestHide={() => this.setState({modalIsOpen: false})}
           style={{padding: "60px"}}
         >
           <h1>This is Modal 1!</h1>
@@ -30,7 +29,6 @@ class EscapableModal extends React.Component {
           <Modal
             isOpen={this.state.anotherModalIsOpen}
             contentLabel=""
-            onRequestHide={() => this.setState({anotherModalIsOpen: false})}
             style={{padding: "20px"}}
           >
             <h1>Sure, here is more</h1>
