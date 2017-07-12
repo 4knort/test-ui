@@ -13,15 +13,15 @@
 .link {
   display: block;
   padding: 20px;
-  background: #ecf5f5;
+  background: #ffffff;
   color: black;
   z-index: 1;
   text-decoration: none;
 }
 
 .active-link {
-  background: #7e9494;
-  color: white;
+  background: #eef3f4;
+  color: black;
   box-shadow: none;
   z-index: 0;
   border-bottom: none;
