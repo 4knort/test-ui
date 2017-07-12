@@ -27,23 +27,7 @@ class DashboardLeftBar extends React.Component {
       return (
         <div>
           <h3 style={titleStyle}>Students</h3>
-          {items.map(classroom => {
-            return (
-                <HLayout style={classroomStyle} key={classroom._id} alignItems="middle" gutter={7} onClick={() => {
-                  this.props.spotLightClassroom(classroom)
-                }}>
-                  <div
-                    style={{
-                      ...studentAvatarStyle,
-                      backgroundImage: `url(${getClassroomAvatar(classroom)})`,
-                    }}
-                  />
-                  <HLayoutItem flexGrow style={studentNameStyle}>
-                    <span>{classroom.name}</span>
-                  </HLayoutItem>
-                </HLayout>
-            );
-          })}
+          {items.map((classroom) => this._renderClassroom(classroom))}
         </div>
       ) 
     }
@@ -75,6 +59,7 @@ class DashboardLeftBar extends React.Component {
   }  
 
   _renderClassroom(classroom) {
+    console.log(this)
     return (
         <HLayout style={classroomStyle} key={classroom._id} alignItems="middle" gutter={7} onClick={() => this.props.spotLightClassroom(classroom)}>
           <div
