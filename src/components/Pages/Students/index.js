@@ -14,7 +14,7 @@ export default props => {
   return (
     <div>
       <NavBar />
-      <Dashboard students={students} />
+      <Dashboard items={students} students/>
     </div>
   );
 };

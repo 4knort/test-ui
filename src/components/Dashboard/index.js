@@ -4,31 +4,52 @@ import { HLayout, HLayoutItem } from "react-flexbox-layout";
 
 import SimpleLeftBar from "components/Dashboard/LeftBar/";
 import StudentSpotLight from "components/SpotLight/Student";
+import ClassroomSpotLight from "components/SpotLight/Classroom";
 
-const Dashboard = props => {
-  let spotlight;
-  let selectedStudentid;
-  if (props.match.params && props.match.params.studentId) {
-    selectedStudentid = props.match.params.studentId;
-    const spotlightedStudent = props.students.find(
-      student => student._id == selectedStudentid
-    );
-    spotlight = <StudentSpotLight student={spotlightedStudent} />;
+class Dashboard extends React.Component {
+  state = {
+    spotlighted: false,
+    classroom: null,
   }
-  return (
-    <HLayout width="100%" gutter={7}>
-      <HLayoutItem flexGrow={1}>
-        <SimpleLeftBar students={props.students} />
-      </HLayoutItem>
-      <HLayoutItem flexGrow={1}>
-        {selectedStudentid &&
-          <div style={spotLightContainerStyle}>
-            {spotlight}
-          </div>
-        }
-      </HLayoutItem>
-    </HLayout>
-  );
+
+  getSpotLightedItem() {
+    let spotlight;
+    let selectedStudentid;
+    if (this.props.match.params && this.props.match.params.studentId) {
+      selectedStudentid = this.props.match.params.studentId;
+      const spotlightedStudent = this.props.items.find(
+        student => student._id == selectedStudentid
+      );
+      return <StudentSpotLight student={spotlightedStudent} />;
+    } else if (this.state.classroom) {
+      return <ClassroomSpotLight classroom={this.state.classroom} />;
+    }
+  }
+  render() {
+    
+
+    return (
+      <HLayout width="100%" gutter={7}>
+        <HLayoutItem flexGrow={1}>
+          <SimpleLeftBar items={this.props.items} students={this.props.students} classrooms={this.props.classrooms} spotLightClassroom={this.getSpotlightedClassroom}/>
+        </HLayoutItem>
+        <HLayoutItem flexGrow={1}>
+          { (this.state.spotlighted || this.props.match.params.studentId) &&
+            <div style={spotLightContainerStyle}>
+              {this.getSpotLightedItem()}
+            </div>
+          }
+        </HLayoutItem>
+      </HLayout>
+    );
+  }
+  
+
+  getSpotlightedClassroom = (classroom) => {
+    this.setState({classroom: classroom, spotlighted: true});
+  }
+
+  
 };
 
 export default withRouter(Dashboard);

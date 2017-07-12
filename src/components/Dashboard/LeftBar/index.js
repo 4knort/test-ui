@@ -5,22 +5,48 @@ import { HLayout, HLayoutItem, VLayout, VLayoutItem } from 'react-flexbox-layout
 
 import { fullName } from 'utils/name';
 import { getStudentAvatar } from 'utils/studentAvatar';
+import { getClassroomAvatar } from 'utils/classroomAvatar';
 
 class DashboardLeftBar extends React.Component {
 
   static propTypes = {
-    students: PropTypes.array.isRequired,
+    items: PropTypes.array.isRequired,
   };
 
   render() {
+    const items = this.props.items;
 
-    const students = this.props.students;
-    return (
-      <div>
-        <h3 style={titleStyle}>Students</h3>
-        {students.map(this._renderStudent)}
-      </div>
-    )
+    if (this.props.students) {
+      return (
+        <div>
+          <h3 style={titleStyle}>Students</h3>
+          {items.map(this._renderStudent)}
+        </div>
+      ) 
+    } else {
+      return (
+        <div>
+          <h3 style={titleStyle}>Students</h3>
+          {items.map(classroom => {
+            return (
+                <HLayout style={classroomStyle} key={classroom._id} alignItems="middle" gutter={7} onClick={() => {
+                  this.props.spotLightClassroom(classroom)
+                }}>
+                  <div
+                    style={{
+                      ...studentAvatarStyle,
+                      backgroundImage: `url(${getClassroomAvatar(classroom)})`,
+                    }}
+                  />
+                  <HLayoutItem flexGrow style={studentNameStyle}>
+                    <span>{classroom.name}</span>
+                  </HLayoutItem>
+                </HLayout>
+            );
+          })}
+        </div>
+      ) 
+    }
   }
 
   _renderStudent(student) {
@@ -46,11 +72,31 @@ class DashboardLeftBar extends React.Component {
         </HLayout>
       </NavLink>
     );
+  }  
+
+  _renderClassroom(classroom) {
+    return (
+        <HLayout style={classroomStyle} key={classroom._id} alignItems="middle" gutter={7} onClick={() => this.props.spotLightClassroom(classroom)}>
+          <div
+            style={{
+              ...studentAvatarStyle,
+              backgroundImage: `url(${getClassroomAvatar(classroom)})`,
+            }}
+          />
+          <HLayoutItem flexGrow style={studentNameStyle}>
+            <span>{classroom.name}</span>
+          </HLayoutItem>
+        </HLayout>
+    );
   }
 }
 
 const BORDER = '1px solid #e3e9e8';
 
+const classroomStyle = {
+  cursor: "pointer",
+  marginBottom: "10px",
+}
 const titleStyle = {
   fontWeight: "normal",
   fontSize: "17px",
